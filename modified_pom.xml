@@ -1,50 +1,45 @@
-<profiles>
-    <profile>
-        <id>daily-profile</id>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>daily-job-runner</id>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                            <configuration>
-                                <classifier>daily</classifier>
-                                <mainClass>gov.irs.sbse.os.ts.csp.alsentity.ale.util.DailyJobRunner</mainClass>
-                                <skip>false</skip>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
-    <profile>
-        <id>weekly-profile</id>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>weekly-job-runner</id>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                            <configuration>
-                                <classifier>weekly</classifier>
-                                <mainClass>gov.irs.sbse.os.ts.csp.alsentity.ale.util.WeeklyJobRunner</mainClass>
-                                <skip>false</skip>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
-</profiles>
+<build>
+    <plugins>
+        <!-- Other plugins here -->
+        
+        <!-- Spring Boot Maven plugin with two separate executions -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <!-- Add this to avoid the "Unable to find a single main class" error -->
+                <excludes>
+                    <exclude>
+                        <groupId>gov.irs.sbse.os.ts.csp.alsentity.ale</groupId>
+                        <artifactId>*</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>daily-job-runner</id>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>daily</classifier>
+                        <mainClass>gov.irs.sbse.os.ts.csp.alsentity.ale.util.DailyJobRunner</mainClass>
+                        <layout>JAR</layout>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>weekly-job-runner</id>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>weekly</classifier>
+                        <mainClass>gov.irs.sbse.os.ts.csp.alsentity.ale.util.WeeklyJobRunner</mainClass>
+                        <layout>JAR</layout>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
